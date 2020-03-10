@@ -4,4 +4,10 @@
 from Symmetric import Symmetric
 
 class Regular(Symmetric):
-    pass
+    def __init__(self):
+        pass
+
+    def render(self, ):
+        pass
+
+
