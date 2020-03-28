@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
 
-from Section import Section
+from src.Section import Section
 
 class Polyline(Section):
     def __init__(self):

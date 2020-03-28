@@ -1,12 +1,13 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
 
-from ClosedFigure import ClosedFigure
+from src.Symmetric import Symmetric
 
-class Circle(ClosedFigure):
+class Regular(Symmetric):
     def __init__(self):
         pass
 
     def render(self, ):
         pass
+
 

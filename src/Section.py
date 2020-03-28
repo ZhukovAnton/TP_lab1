@@ -1,9 +1,9 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
 
-from Ray import Ray
+from src.OpenFigure import OpenFigure
 
-class Line(Ray):
+class Section(OpenFigure):
     def __init__(self):
         pass
 

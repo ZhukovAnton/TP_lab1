@@ -1,13 +1,12 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
 
-from Symmetric import Symmetric
+from src.Ray import Ray
 
-class Regular(Symmetric):
+class Line(Ray):
     def __init__(self):
         pass
 
     def render(self, ):
         pass
-
 

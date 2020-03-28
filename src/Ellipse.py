@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
 
-from Circle import Circle
+from src.Circle import Circle
 
 class Ellipse(Circle):
     def __init__(self):

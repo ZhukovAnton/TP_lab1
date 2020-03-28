@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
 
-from ClosedFigure import ClosedFigure
+from src.ClosedFigure import ClosedFigure
 
 class Shape(ClosedFigure):
     def __init__(self):

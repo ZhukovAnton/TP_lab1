@@ -1,9 +1,9 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
 
-from Section import Section
+from src.Shape import Shape
 
-class Ray(Section):
+class Irregular(Shape):
     def __init__(self):
         pass
 

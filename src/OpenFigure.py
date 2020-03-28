@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
 
-from Figure import Figure
+from src.Figure import Figure
 
 class OpenFigure(Figure):
     def __init__(self):

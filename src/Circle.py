@@ -1,9 +1,9 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
 
-from Shape import Shape
+from src.ClosedFigure import ClosedFigure
 
-class Irregular(Shape):
+class Circle(ClosedFigure):
     def __init__(self):
         pass
 
