@@ -3,10 +3,9 @@
 
 from src.OpenFigure import OpenFigure
 
+
 class Section(OpenFigure):
-    def __init__(self):
-        pass
 
-    def render(self, ):
-        pass
-
+    def render(self, qp):
+        qp.setPen(self.pen)
+        qp.drawLine(self.start_point, self.end_point)

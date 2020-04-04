@@ -1,7 +1,10 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
 from abc import ABC, abstractmethod
-from ui.constants import DefaultDrawParams
+
+from PyQt5.QtGui import QPen
+
+from helpers.constants import DefaultDrawParams
 
 
 class Figure(ABC):
@@ -33,14 +36,13 @@ class Figure(ABC):
     def border_color(self, value):
         self._border_color = value
 
-    @abstractmethod
-    def render(self):
-        pass
-
-    @abstractmethod
-    def location(self, ):
-        pass
-
-    @abstractmethod
-    def move(self, ):
-        pass
+    @property
+    def pen(self):
+        """create and return default pen"""
+        pen = QPen()
+        pen.setStyle(DefaultDrawParams.pen_style)
+        pen.setWidth(DefaultDrawParams.pen_thickness)
+        pen.setBrush(self.border_color)
+        pen.setCapStyle(DefaultDrawParams.pen_cap_style)
+        pen.setJoinStyle(DefaultDrawParams.pen_join_style)
+        return pen
