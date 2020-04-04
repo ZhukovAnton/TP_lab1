@@ -2,6 +2,10 @@ from PyQt5.QtGui import QColor
 from PyQt5.QtCore import Qt
 
 
+PAINT_ERROR_MSG = "Ooops, something is wrong with our paint app. We are fixing this error now ;)"
+COMMON_ERROR_MSG = "Unexpected error. Even we don't know what has happened. Try again)"
+
+
 class DefaultMainWindowParams:
     title = "Paint Application"
     left_indent = 600
@@ -23,5 +27,8 @@ class DefaultColorButtonParams:
 
 class DefaultDrawParams:
     pen_color = Qt.black
+    pen_style = Qt.SolidLine
+    pen_cap_style = Qt.RoundCap
+    pen_join_style = Qt.RoundJoin
+    pen_thickness = 3
     inner_color = Qt.white
-    thickness = 3
