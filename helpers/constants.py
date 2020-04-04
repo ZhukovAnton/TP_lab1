@@ -18,7 +18,24 @@ class DefaultSideBarParams:
     bg_color = QColor('lightgray')
     width = 200
     height = None
+    margin_left = 10
+    margin_top = 40
+    margin_right = 10
+    margin_bottom = 30
+    alignment = Qt.AlignTop
 
+
+class ButtonsLabels:
+    set_num = 'Set num'
+    reset = 'Reset'
+    border_color = 'Choose border color'
+    bg_color = 'Choose background color'
+
+
+class ButtonsTitles:
+    bg_color = 'Bg color:'
+    border_color = 'Border color:'
+    figure = 'Figure:'
 
 class DefaultColorButtonParams:
     width = 200

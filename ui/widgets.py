@@ -1,6 +1,6 @@
 from collections import namedtuple
 
-from PyQt5.QtCore import pyqtSignal, Qt, pyqtSlot
+from PyQt5.QtCore import pyqtSignal, Qt
 from PyQt5.QtGui import QColor
 from PyQt5.QtWidgets import QPushButton, QRadioButton, QVBoxLayout, QLabel, QWidget, QColorDialog, QFileDialog, \
     QButtonGroup, QInputDialog
@@ -8,7 +8,7 @@ from PyQt5.QtWidgets import QPushButton, QRadioButton, QVBoxLayout, QLabel, QWid
 from helpers.constants import (
     DefaultSideBarParams as SideBarParams,
     DefaultColorButtonParams,
-)
+    ButtonsTitles, ButtonsLabels)
 from helpers.mappings import FIGURE_LABEL_MAPPINGS, SEVERAL_POINTS_FIGURES_LABEL, FigureLabels
 
 DialogParams = namedtuple(
@@ -28,33 +28,23 @@ class SideBar(QWidget):
         self.set_bg_color()
 
         self.figures_radio_buttons = []
-        self.num_btn = QPushButton('Set num', self)
-        self.reset_btn = QPushButton('Reset', self)
-        self.border_color_btn = QColorButton('Choose border color')
-        self.bg_color_btn = QColorButton('Choose background color')
-        self.save_btn = QPushButton("Save", self)
+        self.num_btn = QPushButton(ButtonsLabels.set_num, self)
+        self.reset_btn = QPushButton(ButtonsLabels.reset, self)
+        self.border_color_btn = QColorButton(ButtonsLabels.border_color)
+        self.bg_color_btn = QColorButton(ButtonsLabels.bg_color)
         self.button_group = QButtonGroup()
 
         self.render_buttons()
 
-    @pyqtSlot()
-    def save(self):
-        file_path, _ = QFileDialog.getSaveFileName(
-            parent=self,
-            caption="Save Image",
-            filter="PNG(*.png);;JPEG(*.jpg *.jpeg);;All Files(*.*) "
-        )
-
-        if file_path == "":
-            return
-        self.image.save(file_path)
-
     def render_buttons(self):
         layout = QVBoxLayout()
-        layout.addStretch(0)
-
-        layout.addWidget(self.save_btn)
-        self.save_btn.clicked.connect(self.save)
+        layout.setAlignment(SideBarParams.alignment)
+        layout.setContentsMargins(
+            SideBarParams.margin_left,
+            SideBarParams.margin_top,
+            SideBarParams.margin_right,
+            SideBarParams.margin_bottom,
+        )
 
         layout.addWidget(self.reset_btn)
         self.reset_btn.clicked.connect(lambda: self.parent.draw_area.reset())
@@ -62,13 +52,13 @@ class SideBar(QWidget):
         layout.addWidget(self.num_btn)
         self.num_btn.clicked.connect(lambda: self.show_dialog(self.parent.active))
 
-        layout.addWidget(QLabel('Border color:', self))
+        layout.addWidget(QLabel(ButtonsTitles.border_color, self))
         layout.addWidget(self.border_color_btn)
 
-        layout.addWidget(QLabel('Bg color:', self))
+        layout.addWidget(QLabel(ButtonsTitles.bg_color, self))
         layout.addWidget(self.bg_color_btn)
 
-        layout.addWidget(QLabel('Figure:', self))
+        layout.addWidget(QLabel(ButtonsTitles.figure, self))
 
         # render buttons to choose a figure
         self.figures_radio_buttons = [
