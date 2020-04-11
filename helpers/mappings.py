@@ -19,6 +19,9 @@ class FigureLabels:
     section_label = 'section'
     regular_shape_label = 'regular shape'
     irregular_shape_label = 'irregular shape'
+    triangle_label = 'triangle'
+    rhombus_label = 'rhombus'
+    rectangle_label = 'rectangle'
 
 
 FIGURE_LABEL_MAPPINGS = {
@@ -30,6 +33,9 @@ FIGURE_LABEL_MAPPINGS = {
     FigureLabels.section_label: Section,
     FigureLabels.regular_shape_label: Regular,
     FigureLabels.irregular_shape_label: Irregular,
+    FigureLabels.triangle_label: Irregular,
+    FigureLabels.rhombus_label: Irregular,
+    FigureLabels.rectangle_label: Irregular,
 }
 
 
