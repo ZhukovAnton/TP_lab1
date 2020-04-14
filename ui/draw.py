@@ -1,4 +1,4 @@
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QPoint
 from PyQt5.QtGui import QPainter, QPen
 from PyQt5.QtWidgets import QWidget, QMessageBox
 
@@ -128,6 +128,45 @@ class DrawArea(QWidget):
             )
         return figure
 
+    def _triangle_processor(self, **kwargs):
+        figure = None
+        if self.__is_enough_points(3):
+            figure = Irregular(
+                border_color=kwargs.get('border_color'),
+                inner_color=kwargs.get('inner_color'),
+                border_points=self.points,
+            )
+        return figure
+
+    def _rectangle_processor(self, **kwargs):
+        figure = None
+        if self.__is_enough_points(2):
+            fir, sec = self.points
+            figure = Irregular(
+                border_color=kwargs.get('border_color'),
+                inner_color=kwargs.get('inner_color'),
+                border_points=[
+                    fir, QPoint(fir.x(), sec.y()),
+                    sec, QPoint(sec.x(), fir.y())
+                ]
+            )
+        return figure
+
+    def _rhombus_processor(self, **kwargs):
+        figure = None
+        if self.__is_enough_points(2):
+            fir, sec = self.points
+            figure = Irregular(
+                border_color=kwargs.get('border_color'),
+                inner_color=kwargs.get('inner_color'),
+                border_points=[
+                    fir, sec,
+                    QPoint(fir.x(), 2*sec.y() - fir.y()),
+                    QPoint(2*fir.x() - sec.x(), sec.y())
+                ]
+            )
+        return figure
+
     def _new_figure_event_processor(self):
         # remove all auxiliary points from the screen
         self.points = []
@@ -152,6 +191,9 @@ class DrawArea(QWidget):
             FigureLabels.irregular_shape_label: self._irregular_processor,
             FigureLabels.circle_label: self._circle_processor,
             FigureLabels.ellipse_label: self._ellipse_processor,
+            FigureLabels.triangle_label: self._triangle_processor,
+            FigureLabels.rectangle_label: self._rectangle_processor,
+            FigureLabels.rhombus_label: self._rhombus_processor,
         }
 
         # save new point
