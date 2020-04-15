@@ -38,3 +38,8 @@ class ClosedFigure(Figure, ABC):
     @border_points.setter
     def border_points(self, value):
         self._border_points = value
+
+    def move(self, shift):
+        self.center_point += shift
+        for point in self.border_points:
+            point += shift

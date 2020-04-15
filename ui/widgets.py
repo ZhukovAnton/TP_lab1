@@ -8,8 +8,12 @@ from PyQt5.QtWidgets import QPushButton, QRadioButton, QVBoxLayout, QLabel, QWid
 from helpers.constants import (
     DefaultSideBarParams as SideBarParams,
     DefaultColorButtonParams,
-    ButtonsTitles, ButtonsLabels)
-from helpers.mappings import FIGURE_LABEL_MAPPINGS, SEVERAL_POINTS_FIGURES_LABEL, FigureLabels
+    ButtonsTitles, ButtonsLabels, PaintMode)
+from helpers.mappings import (
+    FIGURE_LABEL_MAPPINGS,
+    SEVERAL_POINTS_FIGURES_LABEL,
+    PAINT_MODE_MAPPING
+)
 
 DialogParams = namedtuple(
     'DialogParams',
@@ -23,17 +27,23 @@ DialogParams = namedtuple(
 class SideBar(QWidget):
     def __init__(self, parent):
         super().__init__(parent)
-        self.parent = parent        # MainWindow instance
-        self.parent.active = None   # active figure
-        self.set_bg_color()
+
+        self.parent = parent            # MainWindow instance
+        self.parent.active = None       # active figure
+        self.parent.paint_mode = None
 
         self.figures_radio_buttons = []
+        self.paint_mode_radio_buttons = []
+
         self.num_btn = QPushButton(ButtonsLabels.set_num, self)
         self.reset_btn = QPushButton(ButtonsLabels.reset, self)
         self.border_color_btn = QColorButton(ButtonsLabels.border_color)
         self.bg_color_btn = QColorButton(ButtonsLabels.bg_color)
-        self.button_group = QButtonGroup()
 
+        self.choose_paint_mode_btn_group = QButtonGroup()
+        self.choose_figure_btn_group = QButtonGroup()
+
+        self.set_bg_color()
         self.render_buttons()
 
     def render_buttons(self):
@@ -59,7 +69,14 @@ class SideBar(QWidget):
         layout.addWidget(self.bg_color_btn)
 
         layout.addWidget(QLabel(ButtonsTitles.figure, self))
+        self.render_choose_figure_btns(layout)
 
+        layout.addWidget(QLabel(ButtonsTitles.paint_mode, self))
+        self.render_paint_mode_btns(layout)
+
+        self.setLayout(layout)
+
+    def render_choose_figure_btns(self, layout):
         # render buttons to choose a figure
         self.figures_radio_buttons = [
             QRadioButton(figure_label)
@@ -70,23 +87,56 @@ class SideBar(QWidget):
             layout.addWidget(button)
 
         for button in self.figures_radio_buttons:
-            self.button_group.addButton(button)
+            self.choose_figure_btn_group.addButton(button)
 
         # set processing function
-        self.button_group.buttonClicked[int].connect(self.on_button_clicked)
+        self.choose_figure_btn_group.buttonClicked[int].connect(
+            self.choose_figure_btns_processor
+        )
 
         # set first active figure as default
         self.figures_radio_buttons[0].setChecked(True)
         self.parent.active = self.figures_radio_buttons[0].text()
         self.parent.num = 3
 
-        self.setLayout(layout)
-
-    def on_button_clicked(self, button_id):
-        for button in self.button_group.buttons():
-            if button is self.button_group.button(button_id):
+    def choose_figure_btns_processor(self, button_id):
+        for button in self.choose_figure_btn_group.buttons():
+            if button is self.choose_figure_btn_group.button(button_id):
                 self.show_dialog(button.text())
                 self.parent.active = button.text()
+                self.paint_mode_radio_buttons[0].setChecked(True)
+                self.parent.paint_mode = PaintMode.draw
+                self.parent.draw_area.points = []
+
+    def render_paint_mode_btns(self, layout):
+        # render buttons to choose a paint mode
+        self.paint_mode_radio_buttons = [
+            QRadioButton(label)
+            for label in [ButtonsLabels.draw, ButtonsLabels.move]
+        ]
+
+        for button in self.paint_mode_radio_buttons:
+            layout.addWidget(button)
+
+        for button in self.paint_mode_radio_buttons:
+            self.choose_paint_mode_btn_group.addButton(button)
+
+        # set processing function
+        self.choose_paint_mode_btn_group.buttonClicked[int].connect(
+            self.choose_paint_mode_btns_processor
+        )
+
+        # set 'draw' paint mode as default
+        self.paint_mode_radio_buttons[0].setChecked(True)
+        self.parent.paint_mode = PaintMode.draw
+
+    def choose_paint_mode_btns_processor(self, button_id):
+        for button in self.choose_paint_mode_btn_group.buttons():
+            if button is self.choose_paint_mode_btn_group.button(button_id):
+                new_paint_mode = PAINT_MODE_MAPPING.get(button.text())
+                if new_paint_mode:
+                    self.parent.paint_mode = new_paint_mode
+                    self.parent.draw_area.points = []
 
     def set_bg_color(self):
         color = SideBarParams.bg_color

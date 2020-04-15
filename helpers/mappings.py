@@ -1,3 +1,4 @@
+from helpers.constants import ButtonsLabels, PaintMode, FigureLabels
 from src import (
     Circle,
     Ellipse,
@@ -9,19 +10,10 @@ from src import (
     Irregular
 )
 
-
-class FigureLabels:
-    circle_label = 'circle'
-    ellipse_label = 'ellipse'
-    line_label = 'line'
-    polyline_label = 'polyline line'
-    ray_label = 'ray'
-    section_label = 'section'
-    regular_shape_label = 'regular shape'
-    irregular_shape_label = 'irregular shape'
-    triangle_label = 'triangle'
-    rhombus_label = 'rhombus'
-    rectangle_label = 'rectangle'
+PAINT_MODE_MAPPING = {
+    ButtonsLabels.draw: PaintMode.draw,
+    ButtonsLabels.move: PaintMode.move,
+}
 
 
 FIGURE_LABEL_MAPPINGS = {

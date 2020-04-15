@@ -2,9 +2,9 @@ from PyQt5.QtCore import Qt, QPoint
 from PyQt5.QtGui import QPainter, QPen
 from PyQt5.QtWidgets import QWidget, QMessageBox
 
+from helpers.geometry import get_distance
 from src import *
-from helpers.constants import COMMON_ERROR_MSG, PAINT_ERROR_MSG
-from helpers.mappings import FigureLabels
+from helpers.constants import COMMON_ERROR_MSG, PAINT_ERROR_MSG, PaintMode, FigureLabels
 
 
 class DrawArea(QWidget):
@@ -16,6 +16,7 @@ class DrawArea(QWidget):
         self.show()
 
     def reset(self):
+        self.figure_to_move = None
         self.points = []
         self.figures = []
         self.update()
@@ -181,7 +182,7 @@ class DrawArea(QWidget):
     def inner_color(self):
         return self.parent.sidebar.bg_color_btn.color()
 
-    def _mouse_press_event(self, event):
+    def _draw_figure(self, event):
         figure_processor_mappings = {
             FigureLabels.section_label: self._section_processor,
             FigureLabels.line_label: self._line_processor,
@@ -218,10 +219,43 @@ class DrawArea(QWidget):
         except:
             raise Exception(COMMON_ERROR_MSG)
 
+    def __select_nearest_figure(self, event_point: QPoint):
+        result_distance = float('inf')
+        result_figure = None
+        for figure in self.figures:
+            distance = get_distance(figure.center_point, event_point)
+            if distance < result_distance:
+                result_distance = distance
+                result_figure = figure
+        return result_figure
+
+    def _move_figure(self, event):
+        self.points.append(event.pos())
+
+        if self.__is_enough_points(1) and self.figures:
+            # use a new point to select figure
+            self.figure_to_move = self.__select_nearest_figure(self.points[0])
+
+        elif self.__is_enough_points(2) and self.figures:
+            # repopulate all figure points
+            new_center = self.points[1]
+            shift_vector = QPoint(
+                new_center.x() - self.figure_to_move.center_point.x(),
+                new_center.y() - self.figure_to_move.center_point.y(),
+            )
+            self.figure_to_move.move(shift_vector)
+            # redraw figures
+            self._new_figure_event_processor()
+
     def mousePressEvent(self, event):
         # entry point for all paint event
+        mode_processors_mapping = {
+            PaintMode.move: self._move_figure,
+            PaintMode.draw: self._draw_figure,
+        }
         try:
-            self._mouse_press_event(event)
+            processor = mode_processors_mapping.get(self.parent.paint_mode)
+            processor(event)
         except Exception as exc:
             self.points = []
             self._show_error_msg(exc)

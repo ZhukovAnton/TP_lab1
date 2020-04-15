@@ -30,3 +30,6 @@ class Polyline(Section):
         qp.setPen(self.pen)
         qp.drawPolyline(*self.inner_points)
 
+    def move(self, shift):
+        for point in self.inner_points:
+            point += shift

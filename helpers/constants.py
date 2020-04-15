@@ -30,12 +30,16 @@ class ButtonsLabels:
     reset = 'Reset'
     border_color = 'Choose border color'
     bg_color = 'Choose background color'
+    move = 'Move figure'
+    draw = 'Draw figure'
 
 
 class ButtonsTitles:
     bg_color = 'Bg color:'
     border_color = 'Border color:'
     figure = 'Figure:'
+    paint_mode = 'Select paint mode:'
+
 
 class DefaultColorButtonParams:
     width = 200
@@ -49,3 +53,22 @@ class DefaultDrawParams:
     pen_join_style = Qt.RoundJoin
     pen_thickness = 3
     inner_color = Qt.white
+
+
+class PaintMode:
+    draw = 'paint'
+    move = 'move'
+
+
+class FigureLabels:
+    circle_label = 'circle'
+    ellipse_label = 'ellipse'
+    line_label = 'line'
+    polyline_label = 'polyline line'
+    ray_label = 'ray'
+    section_label = 'section'
+    regular_shape_label = 'regular shape'
+    irregular_shape_label = 'irregular shape'
+    triangle_label = 'triangle'
+    rhombus_label = 'rhombus'
+    rectangle_label = 'rectangle'

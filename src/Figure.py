@@ -46,3 +46,7 @@ class Figure(ABC):
         pen.setCapStyle(DefaultDrawParams.pen_cap_style)
         pen.setJoinStyle(DefaultDrawParams.pen_join_style)
         return pen
+
+    @abstractmethod
+    def move(self, shift):
+        pass
