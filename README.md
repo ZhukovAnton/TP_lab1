@@ -6,6 +6,9 @@
 Со схемой можно ознакомиться [TP.mdj](https://github.com/ZhukovAnton/TP_lab1/blob/master/TP1.mdj). 
 ## Превью
 ![preview](https://s4.gifyu.com/images/ezgif.com-video-to-gif1.gif)
+## Запуск
+- Клонировать проект
+- Запустить из корня командой python3 entrypoint.py
 ## Задача
 
 - Смоделировать и реализовать программу, которая должна отображать на экране
